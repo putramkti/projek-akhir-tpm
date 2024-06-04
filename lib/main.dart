@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:projek_akhir_tpm/models/user.dart';
-import 'package:projek_akhir_tpm/screens/home.dart';
 import 'package:projek_akhir_tpm/screens/login.dart';
-import 'package:projek_akhir_tpm/screens/register.dart';
 import 'models/favorit_hp.dart';
 
 void main() async {

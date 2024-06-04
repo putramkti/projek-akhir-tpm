@@ -1,4 +1,3 @@
-// register_page.dart
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -34,7 +33,12 @@ class _RegisterPageState extends State<RegisterPage> {
             children: <Widget>[
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Nama'),
+                decoration: InputDecoration(
+                  labelText: 'Nama',
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0)),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Nama tidak boleh kosong';
@@ -45,7 +49,12 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(height: 16.0),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0)),
+                ),
                 onChanged: (_) {
                   setState(() {
                     _emailError = null; // Reset pesan kesalahan email
@@ -67,7 +76,12 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(height: 16.0),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0)),
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -92,7 +106,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     var existingUsers = box.values.toList();
                     print('Isi UserBox: ${box.values.toList()}');
-                    var existingUser = existingUsers.firstWhereOrNull((user) => user.email == email);
+                    var existingUser = existingUsers
+                        .firstWhereOrNull((user) => user.email == email);
                     if (existingUser != null) {
                       setState(() {
                         _emailError = 'Email sudah terdaftar';

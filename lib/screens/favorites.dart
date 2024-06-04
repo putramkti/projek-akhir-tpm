@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projek_akhir_tpm/models/data_detail_hp.dart';
 import 'package:projek_akhir_tpm/models/favorit_hp.dart';
-import 'package:projek_akhir_tpm/models/user.dart';
 import 'package:projek_akhir_tpm/screens/brands.dart';
 import 'package:projek_akhir_tpm/screens/detail_hp.dart';
 import 'package:projek_akhir_tpm/screens/home.dart';
@@ -19,14 +18,18 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   final _favoriteService = FavoriteService();
-  late Future<List<FavoritHp>> _favoritesFuture;
   late String _userEmail;
 
   @override
   void initState() {
     super.initState();
-    _getUserEmail();
-    _favoritesFuture = _favoriteService.getFavorites();
+    _getFavorites();
+  }
+
+  Future<List<FavoritHp>> _getFavorites() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _userEmail = prefs.getString('email') ?? '';
+    return _favoriteService.getFavoritesByEmail(_userEmail);
   }
 
   void _onItemTapped(int index) {
@@ -56,11 +59,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
         );
         break;
     }
-  }
-
-  Future<void> _getUserEmail() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _userEmail = prefs.getString('email') ?? '';
   }
 
   @override
@@ -96,7 +94,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
   Widget _buildFavoritesList() {
     return FutureBuilder<List<FavoritHp>>(
-      future: _favoritesFuture,
+      future: _getFavorites(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

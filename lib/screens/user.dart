@@ -16,8 +16,8 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  late User _user;
-  late String _email;
+  User? _user;
+  String? _email;
 
   @override
   void initState() {
@@ -76,6 +76,9 @@ class _UserPageState extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_user == null) {
+      return CircularProgressIndicator(); // Atau widget loading lainnya
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('User Profile'),
@@ -86,7 +89,7 @@ class _UserPageState extends State<UserPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nama: ${_user.name}',
+              'Nama: ${_user?.name}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),

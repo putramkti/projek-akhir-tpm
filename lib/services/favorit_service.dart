@@ -22,4 +22,11 @@ class FavoriteService {
     final box = await _openBox();
     return box.values.toList();
   }
+
+  Future<List<FavoritHp>> getFavoritesByEmail(String email) async {
+    final box = await _openBox();
+    final List<FavoritHp> favorites =
+        box.values.where((favorite) => favorite.email == email).toList();
+    return favorites;
+  }
 }

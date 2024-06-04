@@ -141,21 +141,27 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
             children: [
               Image.network(
                 hp.image!,
-                width: 100,
+                width: 90,
               ),
+              SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        hp.phoneName!,
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          hp.phoneName!,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                          maxLines: 2, // Batasi maksimal 2 baris
+                          overflow: TextOverflow
+                              .ellipsis, // Tampilkan elipsis jika teks terlalu panjang
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )

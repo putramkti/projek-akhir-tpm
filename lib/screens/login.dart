@@ -55,11 +55,18 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Image.asset(
+                "assets/logo.png",
+                height: 200,
+              ),
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   errorText: _emailError,
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0)),
                 ),
                 onChanged: (_) {
                   setState(() {
@@ -76,7 +83,12 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 16.0),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0)),
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -96,10 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                     // Baca data user dari Hive
                     var box = await Hive.openBox<User>('userBox');
                     var userr = box.values;
-                    var user = userr.firstWhereOrNull((user) => user.email == email);
+                    var user =
+                        userr.firstWhereOrNull((user) => user.email == email);
 
                     if (user != null && user.password == password) {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
                       prefs.setBool("isLogin", true);
                       prefs.setString("email", email);
 
@@ -121,7 +135,9 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: Text('Login'),
               ),
-              SizedBox(height: 16.0), // Tambahkan jarak antara tombol Login dan teks atau tombol Register
+              SizedBox(
+                  height:
+                      16.0), // Tambahkan jarak antara tombol Login dan teks atau tombol Register
               TextButton(
                 onPressed: () {
                   // Navigasi ke halaman registrasi
