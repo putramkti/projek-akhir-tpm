@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:projek_akhir_tpm/screens/bottomnavbar.dart';
 import 'package:projek_akhir_tpm/screens/brands.dart';
 import 'package:projek_akhir_tpm/screens/favorites.dart';
 import 'package:projek_akhir_tpm/screens/home.dart';
@@ -45,34 +46,6 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  void _onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => BrandsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FavoritesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => UserPage()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,29 +78,7 @@ class _UserPageState extends State<UserPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.grey),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.branding_watermark, color: Colors.grey),
-            label: 'Brands',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark, color: Colors.grey),
-            label: 'Bookmarks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Colors.blue),
-            label: 'Profile',
-          ),
-        ],
-        showUnselectedLabels: true,
-        showSelectedLabels: true,
-        onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

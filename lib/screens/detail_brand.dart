@@ -19,34 +19,6 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
   final String slugBrand;
   _DetailBrandPageState({required this.slugBrand});
 
-  void _onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => BrandsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FavoritesPage()),
-        );
-        break;
-      case 3:
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => ProfilePage()),
-      // );
-      // break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,29 +29,6 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
           padding: EdgeInsets.all(8.0),
           child: _buildListPhoneBody(),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.grey),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.branding_watermark, color: Colors.blue),
-            label: 'Brands',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark, color: Colors.grey),
-            label: 'Bookmarks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Colors.grey),
-            label: 'Profile',
-          ),
-        ],
-        showUnselectedLabels: true,
-        showSelectedLabels: true,
-        onTap: _onItemTapped,
       ),
     );
   }

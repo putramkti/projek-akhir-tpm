@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:projek_akhir_tpm/models/user.dart';
+import 'package:projek_akhir_tpm/screens/bottomnavbar.dart';
 import 'package:projek_akhir_tpm/screens/home.dart';
 import 'package:projek_akhir_tpm/screens/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,9 +34,10 @@ class _LoginPageState extends State<LoginPage> {
       var user = box.values.firstWhereOrNull((user) => user.email == email);
       if (user != null) {
         // Arahkan ke halaman beranda jika pengguna sudah login
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => BottomNavBar()),
+          (Route<dynamic> route) => false, // menghapus semua rute sebelumnya
         );
       }
     }
@@ -117,9 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                       prefs.setBool("isLogin", true);
                       prefs.setString("email", email);
 
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
+                        MaterialPageRoute(builder: (context) => BottomNavBar()),
+                            (Route<dynamic> route) => false, // menghapus semua rute sebelumnya
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(
