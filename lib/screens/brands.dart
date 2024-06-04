@@ -17,6 +17,34 @@ class BrandsPage extends StatefulWidget {
 class _BrandsPageState extends State<BrandsPage> {
   int _selectedIndex = 0;
 
+  void _onItemTapped(int index) {
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BrandsPage()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => FavoritesPage()),
+        );
+        break;
+      case 3:
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => ProfilePage()),
+      // );
+      // break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

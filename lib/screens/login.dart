@@ -49,109 +49,115 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text('Login'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                "assets/logo.png",
-                height: 200,
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  errorText: _emailError,
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0)),
+      body: SingleChildScrollView(
+        // Tambahkan widget SingleChildScrollView di sini
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  "assets/logo.png",
+                  height: 200,
                 ),
-                onChanged: (_) {
-                  setState(() {
-                    _emailError = null; // Reset pesan kesalahan email
-                  });
-                },
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Email tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0)),
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Password tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    // Validasi berhasil, lanjutkan proses login
-                    String email = _emailController.text;
-                    String password = _passwordController.text;
-
-                    // Baca data user dari Hive
-                    var box = await Hive.openBox<User>('userBox');
-                    var userr = box.values;
-                    var user =
-                        userr.firstWhereOrNull((user) => user.email == email);
-
-                    if (user != null && user.password == password) {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.setBool("isLogin", true);
-                      prefs.setString("email", email);
-
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => BottomNavBar()),
-                            (Route<dynamic> route) => false, // menghapus semua rute sebelumnya
-                      );
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Login berhasil')),
-                      );
-                    } else {
-                      // Password salah atau email tidak terdaftar
-                      setState(() {
-                        _emailError = 'Email atau password salah';
-                      });
+                SizedBox(height: 20.0),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    errorText: _emailError,
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0)),
+                  ),
+                  onChanged: (_) {
+                    setState(() {
+                      _emailError = null; // Reset pesan kesalahan email
+                    });
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Email tidak boleh kosong';
                     }
-                  }
-                },
-                child: Text('Login'),
-              ),
-              SizedBox(
-                  height:
-                      16.0), // Tambahkan jarak antara tombol Login dan teks atau tombol Register
-              TextButton(
-                onPressed: () {
-                  // Navigasi ke halaman registrasi
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()),
-                  );
-                },
-                child: Text('Belum punya akun? Daftar disini'),
-              ),
-            ],
+                    return null;
+                  },
+                ),
+                SizedBox(height: 16.0),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0)),
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Password tidak boleh kosong';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 32.0),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      // Validasi berhasil, lanjutkan proses login
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+
+                      // Baca data user dari Hive
+                      var box = await Hive.openBox<User>('userBox');
+                      var userr = box.values;
+                      var user =
+                          userr.firstWhereOrNull((user) => user.email == email);
+
+                      if (user != null && user.password == password) {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setBool("isLogin", true);
+                        prefs.setString("email", email);
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()),
+                          (Route<dynamic> route) =>
+                              false, // menghapus semua rute sebelumnya
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Login berhasil')),
+                        );
+                      } else {
+                        // Password salah atau email tidak terdaftar
+                        setState(() {
+                          _emailError = 'Email atau password salah';
+                        });
+                      }
+                    }
+                  },
+                  child: Text('Login'),
+                ),
+                SizedBox(
+                    height:
+                        16.0), // Tambahkan jarak antara tombol Login dan teks atau tombol Register
+                TextButton(
+                  onPressed: () {
+                    // Navigasi ke halaman registrasi
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
+                  },
+                  child: Text('Belum punya akun? Daftar disini'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

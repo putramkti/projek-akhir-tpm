@@ -17,11 +17,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home Page")),
+      appBar: AppBar(
+        title: Text("Home Page"),
+        // flexibleSpace: Center(
+        //   child: Image.asset(
+        //     "assets/logo.png",
+        //     fit: BoxFit.contain,
+        //     height: 40, // Sesuaikan dengan tinggi yang diinginkan
+        //   ),
+        // ),
+      ),
       body: Container(
         child: Padding(
           padding: EdgeInsets.all(8.0),

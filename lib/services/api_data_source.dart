@@ -7,6 +7,18 @@ class ApiDataSource {
     return BaseNetwork.get('latest');
   }
 
+  Future<Map<String, dynamic>> loadHPByInterest() {
+    return BaseNetwork.get('top-by-interest');
+  }
+
+  Future<Map<String, dynamic>> loadHPByFans() {
+    return BaseNetwork.get('top-by-fans');
+  }
+
+  Future<Map<String, dynamic>> searchHP(String hp) {
+    return BaseNetwork.get('top-by-fans/${hp}');
+  }
+
   Future<Map<String, dynamic>> loadDetailHP(String slugHP) {
     return BaseNetwork.get(slugHP);
   }
