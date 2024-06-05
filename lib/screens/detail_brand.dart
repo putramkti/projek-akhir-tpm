@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projek_akhir_tpm/models/data_detail_brands.dart';
-import 'package:projek_akhir_tpm/screens/brands.dart';
 import 'package:projek_akhir_tpm/screens/detail_hp.dart';
-import 'package:projek_akhir_tpm/screens/favorites.dart';
-import 'package:projek_akhir_tpm/screens/home.dart';
 import 'package:projek_akhir_tpm/services/api_data_source.dart';
 
 class DetailBrandPage extends StatefulWidget {
@@ -18,7 +15,6 @@ class DetailBrandPage extends StatefulWidget {
 class _DetailBrandPageState extends State<DetailBrandPage> {
   final String slugBrand;
   _DetailBrandPageState({required this.slugBrand});
-
 
   @override
   Widget build(BuildContext context) {
