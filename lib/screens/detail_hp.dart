@@ -33,12 +33,12 @@ class _DetailHpPageState extends State<DetailHpPage> {
       );
     }
     final isFavorite = favorites.any(
-        (favorite) => favorite.slug == slug && favorite.email == _userEmail);
+            (favorite) => favorite.slug == slug && favorite.email == _userEmail);
 
     if (isFavorite) {
       // Remove from favorites
       final indexToRemove = favorites.indexWhere(
-          (favorite) => favorite.slug == slug && favorite.email == _userEmail);
+              (favorite) => favorite.slug == slug && favorite.email == _userEmail);
       await _favoriteService.removeFromFavorites(indexToRemove);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Removed from favorites')),
@@ -59,7 +59,7 @@ class _DetailHpPageState extends State<DetailHpPage> {
   Future<void> _removeFavorite(String slug) async {
     final favorites = await _favoritesFuture;
     final indexToRemove = favorites.indexWhere(
-        (favorite) => favorite.slug == slug && favorite.email == _userEmail);
+            (favorite) => favorite.slug == slug && favorite.email == _userEmail);
     if (indexToRemove != -1) {
       await _favoriteService.removeFromFavorites(indexToRemove);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -97,7 +97,7 @@ class _DetailHpPageState extends State<DetailHpPage> {
                   return Icon(Icons.favorite_border);
                 } else if (snapshot.data != null) {
                   final isFavorite = snapshot.data!.any((favorite) =>
-                      favorite.slug == slug && favorite.email == _userEmail);
+                  favorite.slug == slug && favorite.email == _userEmail);
                   return Icon(
                     isFavorite ? Icons.favorite : Icons.favorite_border,
                     color: isFavorite ? Colors.red : null,
@@ -109,41 +109,28 @@ class _DetailHpPageState extends State<DetailHpPage> {
               },
             ),
           ),
-          IconButton(
-            onPressed: () {
-              if (_favoritesFuture != null) {
-                _removeFavorite(slug);
-              }
-            },
-            icon: Icon(
-              Icons.delete_outline,
-              color: Colors.white,
-            ),
-          ),
         ],
       ),
-      body: Container(
-        child:
-            Padding(padding: EdgeInsets.all(8.0), child: _buildListPhoneBody()),
+      body: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: _buildListPhoneBody(),
       ),
     );
   }
 
   Widget _buildListPhoneBody() {
-    return Container(
-      child: FutureBuilder(
-          future: ApiDataSource.instance.loadDetailHP(slug),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasError) {
-              return _buildErrorSection();
-            }
-            if (snapshot.hasData) {
-              DataDetailHP dataDetailHP = DataDetailHP.fromJson(snapshot.data);
-              return _buildSuccessSection(dataDetailHP);
-            }
-            return _buildLoadingSection();
-          }),
-    );
+    return FutureBuilder(
+        future: ApiDataSource.instance.loadDetailHP(slug),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return _buildErrorSection();
+          }
+          if (snapshot.hasData) {
+            DataDetailHP dataDetailHP = DataDetailHP.fromJson(snapshot.data);
+            return _buildSuccessSection(dataDetailHP);
+          }
+          return _buildLoadingSection();
+        });
   }
 
   Widget _buildErrorSection() {
@@ -153,6 +140,50 @@ class _DetailHpPageState extends State<DetailHpPage> {
   Widget _buildLoadingSection() {
     return Center(
       child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget _buildSpecificationSection(String title, List<Specification> specifications) {
+    final specification = specifications.firstWhere((spec) => spec.title == title, orElse: () => Specification(title: '', specs: []));
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              for (final spec in specification.specs ?? [])
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    if (spec.key != null)
+                      Text(
+                        spec.key!,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    SizedBox(height: 4.0),
+                    if (spec.val != null)
+                      ...spec.val!.map((value) => Text(value ?? "")).toList(),
+                    SizedBox(height: 8.0),
+                  ],
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -171,35 +202,53 @@ class _DetailHpPageState extends State<DetailHpPage> {
       enableInfiniteScroll: false,
     );
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CarouselSlider(
-            options: options,
-            items: listImg.map((item) => Image.network(item)).toList(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CarouselSlider(
+          options: options,
+          items: listImg.map((item) => Image.network(item)).toList(),
+        ),
+        SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${dataHP.brand!} ${dataHP.phoneName!}",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Text(
+                "Release Date : ${dataHP.releaseDate}",
+              ),
+              Text(
+                "Operating System : ${dataHP.os}",
+              ),
+              Text(
+                "Storage : ${dataHP.storage}",
+              ),
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        "assets/ic_kamera.png",
+                        width: 50,
+                      ),
+                      SizedBox(height: 15.0),
+                      _buildSpecificationSection(
+                          "Main Camera", dataHP.specifications ?? []),
+                    ],
+                  )
+
+                ],
+              )
+            ],
           ),
-          SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  dataHP.phoneName ?? '',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  dataHP.os ?? '',
-                ),
-                Text(
-                  dataHP.storage ?? '',
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
