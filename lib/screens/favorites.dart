@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projek_akhir_tpm/models/data_detail_hp.dart';
 import 'package:projek_akhir_tpm/models/favorit_hp.dart';
-import 'package:projek_akhir_tpm/screens/brands.dart';
 import 'package:projek_akhir_tpm/screens/detail_hp.dart';
-import 'package:projek_akhir_tpm/screens/home.dart';
-import 'package:projek_akhir_tpm/screens/user.dart';
 import 'package:projek_akhir_tpm/services/api_data_source.dart';
 import 'package:projek_akhir_tpm/services/favorit_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,8 +29,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
     return _favoriteService.getFavoritesByEmail(_userEmail);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +51,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              return _buildFavoriteItem(snapshot.data![index]);
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _buildFavoriteItem(snapshot.data![index], index),
+              );
             },
           );
         }
@@ -64,7 +62,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
-  Widget _buildFavoriteItem(FavoritHp favorite) {
+  Widget _buildFavoriteItem(FavoritHp favorite, int index) {
     return FutureBuilder<DataDetailHP>(
       future: _fetchDetailHp(favorite.slug),
       builder: (context, snapshot) {
@@ -80,10 +78,16 @@ class _FavoritesPageState extends State<FavoritesPage> {
         } else if (snapshot.hasData) {
           DataDetailHP dataDetailHP = snapshot.data!;
           Data data = dataDetailHP.data!;
-          // Tampilkan hanya gambar HP dan namanya saja
           return ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
             leading: Image.network(data.thumbnail ?? ''),
             title: Text(data.phoneName ?? ''),
+            trailing: IconButton(
+              icon: Icon(Icons.delete, color: Colors.red),
+              onPressed: () {
+                _removeFavorite(index);
+              },
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -105,5 +109,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Future<DataDetailHP> _fetchDetailHp(String slug) async {
     final result = await ApiDataSource.instance.loadDetailHP(slug);
     return DataDetailHP.fromJson(result);
+  }
+
+  void _removeFavorite(int index) {
+    _favoriteService.removeFromFavorites(index);
+    setState(() {});
   }
 }
