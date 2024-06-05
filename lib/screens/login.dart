@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(
                     height:
-                        16.0), // Tambahkan jarak antara tombol Login dan teks atau tombol Register
+                        16.0),
                 TextButton(
                   onPressed: () {
                     // Navigasi ke halaman registrasi

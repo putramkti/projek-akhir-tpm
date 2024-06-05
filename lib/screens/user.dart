@@ -50,32 +50,37 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     if (_user == null) {
-      return CircularProgressIndicator(); // Atau widget loading lainnya
+      return Center(
+        child: CircularProgressIndicator(),
+      );
     }
     return Scaffold(
       appBar: AppBar(
         title: Text('User Profile'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Nama: ${_user?.name}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Email: $_email',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _logout,
-              child: Text('Logout'),
-            ),
-          ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Nama: ${_user?.name}',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Email: $_email',
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _logout,
+                child: Text('Logout'),
+              ),
+            ],
+          ),
         ),
       ),
       // bottomNavigationBar: const BottomNavBar(),
