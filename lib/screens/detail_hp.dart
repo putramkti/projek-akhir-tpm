@@ -202,53 +202,91 @@ class _DetailHpPageState extends State<DetailHpPage> {
       enableInfiniteScroll: false,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CarouselSlider(
-          options: options,
-          items: listImg.map((item) => Image.network(item)).toList(),
-        ),
-        SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${dataHP.brand!} ${dataHP.phoneName!}",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              Text(
-                "Release Date : ${dataHP.releaseDate}",
-              ),
-              Text(
-                "Operating System : ${dataHP.os}",
-              ),
-              Text(
-                "Storage : ${dataHP.storage}",
-              ),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        "assets/ic_kamera.png",
-                        width: 50,
-                      ),
-                      SizedBox(height: 15.0),
-                      _buildSpecificationSection(
-                          "Main Camera", dataHP.specifications ?? []),
-                    ],
-                  )
-
-                ],
-              )
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CarouselSlider(
+            options: options,
+            items: listImg.map((item) => Image.network(item)).toList(),
           ),
-        ),
-      ],
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${dataHP.brand!} ${dataHP.phoneName!}",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(
+                  "Release Date : ${dataHP.releaseDate}",
+                ),
+                Text(
+                  "Operating System : ${dataHP.os}",
+                ),
+                Text(
+                  "Storage : ${dataHP.storage}",
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          "assets/ic_kamera.png",
+                          width: 50,
+                        ),
+                        SizedBox(height: 15.0),
+                        _buildSpecificationSection(
+                            "Main Camera", dataHP.specifications ?? []),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          "assets/ic_kamera_depan.png",
+                          width: 50,
+                        ),
+                        SizedBox(height: 15.0),
+                        _buildSpecificationSection(
+                            "Selfie camera", dataHP.specifications ?? []),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          "assets/ic_layar.png",
+                          width: 50,
+                        ),
+                        SizedBox(height: 15.0),
+                        _buildSpecificationSection(
+                            "Display", dataHP.specifications ?? []),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          "assets/ic_prossecor.png",
+                          width: 50,
+                        ),
+                        SizedBox(height: 15.0),
+                        _buildSpecificationSection(
+                            "Platform", dataHP.specifications ?? []),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
